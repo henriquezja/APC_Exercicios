@@ -1,0 +1,92 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+struct tipoAluno{
+	int ra;
+	char nome[15];
+	float nota1;
+	float nota2;
+	float media;
+};
+tipoAluno cadastraAlunos();
+float media_sala(tipoAluno listadealunos[], int nalunos);
+int n_alunos_media(tipoAluno alunos[] , float media_sala, int nalunos);
+void alunosReprovados(tipoAluno alunos[], int nalunos);
+void main()
+{
+	tipoAluno listaAlunos[50];
+	int i=0,alunosnamedia;
+	float media_alunos;
+	char c;
+	do
+	{
+		listaAlunos[i] = cadastraAlunos();
+		printf("Deseja inserir mais algum caso ?(n - nao / s - sim)\n");
+		fflush(stdin);
+		scanf("%c", &c);
+		i++;
+	} while (i < 50 && c != 'n');
+	media_alunos = media_sala(listaAlunos, i);
+	printf("A media da sala eh : %f\n",media_alunos);
+	alunosnamedia = n_alunos_media(listaAlunos, media_alunos, i);
+	printf("Ha %i alunos na media da sala\n", alunosnamedia);
+	alunosReprovados(listaAlunos, i);
+
+	system("pause");
+}
+tipoAluno cadastraAlunos()
+{
+	tipoAluno aluno;
+	fflush(stdin);
+	printf("Insira o nome do aluno.\n");
+	gets(aluno.nome);
+	printf("Insira o ra do aluno.\n");
+	scanf("%i", &aluno.ra);
+	printf("Insira a nota da prova 1 do aluno\n");
+	scanf("%f", &aluno.nota1);
+	printf("Insira a nota da prova 2 do aluno\n");
+	scanf("%f", &aluno.nota2);
+	aluno.media = (aluno.nota1 * 0.4) + (aluno.nota2 * 0.6);
+	printf("%f", aluno.media);
+	return aluno;
+}
+float media_sala(tipoAluno listadealunos[], int nalunos)
+{
+	float media_sala = 0;
+	for (int i = 0; i < nalunos; i++)
+	{
+		media_sala = media_sala + listadealunos[i].media;
+	}
+	media_sala = media_sala / nalunos;
+	return media_sala;
+}
+int n_alunos_media(tipoAluno alunos[], float media_sala, int nalunos)
+{
+	 int count = 0;
+	 for (int i = 0; i < nalunos; i++)
+	 {
+		 if (media_sala > alunos[i].media)
+		 {
+
+		 }
+		 else
+		 {
+			 count++;
+		 }
+	 }
+	 return count;
+}
+void alunosReprovados(tipoAluno alunos[], int nalunos)
+{
+	for (int i = 0; i < nalunos; i++)
+	{
+		if (alunos[i].media < 5)
+		{
+			printf("%s reprovado\n", alunos[i].nome);
+		}
+		else
+		{
+			printf("%s aprovado\n", alunos[i].nome);
+		}
+	}
+}
